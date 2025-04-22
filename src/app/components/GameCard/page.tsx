@@ -1,7 +1,6 @@
 // components/GameCard.tsx
 import { Game } from '@/app/context/GamesContext'
 import Image from 'next/image'
-import { FaBookmark } from "react-icons/fa";
 
 interface GameCardProps {
   games: Game[]

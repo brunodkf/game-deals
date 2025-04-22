@@ -1,6 +1,7 @@
 // app/games/columns.ts
 import { Game } from "@/app/context/GamesContext"
 import { ColumnDef } from "@tanstack/react-table"
+import Image from "next/image";
 import { FaShoppingCart } from "react-icons/fa";
 
 
@@ -12,7 +13,14 @@ export const columns: ColumnDef<Game>[] = [
       const game = row.original
       return (
         <div className="flex items-center gap-2">
-          <img src={game.thumb} alt={game.title} className="w-10 h-10 rounded" />
+
+          <Image
+            src={game.thumb}
+            alt={game.title}
+            width={50}
+            height={50}
+            className="w-10 h-10 rounded"
+          />
           <span>{game.title}</span>
         </div>
       )

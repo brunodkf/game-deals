@@ -3,7 +3,6 @@ import { Game, useGames } from '@/app/context/GamesContext'
 import { columns } from './columns'
 import { DataTable } from './data-table'
 import { useState } from 'react'
-import FilterControls from '../FilterControls/page'
 
 import { IoGrid } from "react-icons/io5";
 import { IoList } from "react-icons/io5";

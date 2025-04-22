@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { RiGameFill } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { SiNintendogamecube } from "react-icons/si";
