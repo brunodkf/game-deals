@@ -3,14 +3,10 @@
 import Banner from "./components/Banner/page";
 import Navbar from "./components/Navbar/Navbar";
 import DataTable from "@/app/components/DataTable/page"
-
-import { IoGrid } from "react-icons/io5";
-import { IoList } from "react-icons/io5";
 import FilterSidebar, { FilterValues } from "./components/FilterSidebar/page";
 
 import { useGames } from "./context/GamesContext"
 import { useEffect, useState } from "react";
-import FilterControls from "./components/FilterControls/page";
 
 export default function Home() {
 
