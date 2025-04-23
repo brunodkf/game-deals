@@ -1,4 +1,4 @@
-import { Game, useGames } from '@/app/context/GamesContext'
+import { useGames } from '@/app/context/GamesContext'
 import Image from 'next/image'
 
 const CardView = () => {
