@@ -1,12 +1,10 @@
-// components/CardView.tsx
-import { Game } from '@/app/context/GamesContext'
+import { Game, useGames } from '@/app/context/GamesContext'
 import Image from 'next/image'
 
-interface CardViewProps {
-  games: Game[]
-}
+const CardView = () => {
 
-const CardView = ({ games }: CardViewProps) => {
+  const { games } = useGames()
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {games.map((game) => (
