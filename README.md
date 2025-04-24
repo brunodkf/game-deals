@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎮 Game Deals Tracker
 
-## Getting Started
+Este projeto é uma aplicação web que exibe uma lista de jogos com os melhores descontos, utilizando dados de uma API de promoções. Com uma interface responsiva e moderna, o usuário pode visualizar os jogos em formato de cards ou tabela, além de acessar detalhes de cada oferta através de um modal interativo.
 
-First, run the development server:
+## 🛠️ Tecnologias Utilizadas
+
+- **[Next.js 15](https://nextjs.org/)** — Framework React moderno para SSR/SSG
+- **[React Table](https://tanstack.com/table/v8)** — Biblioteca poderosa para exibir dados em tabelas
+- **[Tailwind CSS](https://tailwindcss.com/)** — Framework de utilitários CSS para estilização rápida
+- **[Shadcn UI](https://ui.shadcn.com/)** — Componentes acessíveis e prontos para produção
+- **TypeScript** — Tipagem estática para maior confiabilidade no desenvolvimento
+
+## 📦 Funcionalidades
+
+- ✅ Listagem de jogos com descontos
+- ✅ Exibição em cards e tabela responsiva
+- ✅ Modal com detalhes do jogo
+- ✅ Preço original, com desconto e histórico do menor preço
+- ✅ Link direto para compra na loja (ex: Steam)
+- ✅ Destaque para economia e avaliação do jogo
+
+## 📸 Demonstração
+
+(Adicione aqui um gif ou imagem da aplicação em funcionamento)
+
+## 🧪 Como rodar localmente
 
 ```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/game-deals-tracker.git
+
+# Acesse a pasta do projeto
+cd game-deals-tracker
+
+# Instale as dependências
+npm install
+
+# Rode o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Acesse em http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+###📁 Estrutura de Pastas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+/app
+  /context        -> Context API para gerenciamento global
+  /components     -> Componentes reutilizáveis (GameCard, GameModal, Table, etc)
+  /games          -> Página da listagem de jogos
+  /api            -> Endpoints de API (se houver)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+###🧠 Aprendizados
 
-## Learn More
+Manipulação de estados com Context API
 
-To learn more about Next.js, take a look at the following resources:
+Criação de modais reutilizáveis com Shadcn Dialog
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Exibição de dados dinâmicos em tabelas com React Table
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Acessibilidade e boas práticas de UI
