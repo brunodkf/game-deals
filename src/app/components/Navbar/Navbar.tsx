@@ -16,7 +16,7 @@ const Navbar = () => {
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setSearch(inputValue); // só atualiza o contexto quando apertar Enter
+            setSearch(inputValue); 
         }
     }
 

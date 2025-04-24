@@ -24,7 +24,6 @@ export interface Game {
   thumb: string;
 }
 
-// Tipo bruto da API (tudo como string, basicamente)
 interface RawGame {
   internalName: string;
   title: string;

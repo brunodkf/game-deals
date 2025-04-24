@@ -41,11 +41,11 @@ export const metadata: Metadata = {
     title: "CheapShark Game Deals Dashboard",
     description:
       "Explore as melhores ofertas de jogos com visual moderno e filtros personalizados usando a CheapShark API.",
-    url: "https://seu-dominio.com", // substitua com uma imagem real depois
+    url: "https://seu-dominio.com", 
     siteName: "CheapShark Game Deals",
     images: [
       {
-        url: "https://seu-dominio.com/og-image.png", // substitua com uma imagem real depois
+        url: "https://seu-dominio.com/og-image.png", 
         width: 1200,
         height: 630,
         alt: "CheapShark Game Deals Dashboard",

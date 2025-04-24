@@ -16,19 +16,6 @@ const GamesTable = ({ filteredGames }: GamesTableProps) => {
   const { games, isLoading } = useGames();
   const [viewMode, setViewMode] = useState<'table' | 'card'>('table');
 
-  const [selectedGame, setSelectedGame] = useState<Game | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
-
-  const handleOpen = (game: Game) => {
-    setSelectedGame(game)
-    setIsOpen(true)
-  }
-
-  const handleClose = () => {
-    setSelectedGame(null)
-    setIsOpen(false)
-  }
-
   const dataToDisplay = filteredGames?.length ? filteredGames : games;
 
   const isTableView = viewMode === 'table';

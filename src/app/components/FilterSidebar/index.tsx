@@ -6,7 +6,6 @@ import React, { useState } from "react"
 
 import { Input } from "@/components/ui/input"
 
-
 import {
     Select,
     SelectContent,
@@ -57,7 +56,6 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
 
             <form className="space-y-6 mt-6 " onSubmit={handleSubmit}>
 
-                {/* Filtro por loja */}
                 <div>
                     <label htmlFor="store">Filtrar por loja:</label>
 
@@ -75,8 +73,6 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
 
                 </div>
 
-                {/* Faixa de preço */}
-
                 <div>
                     <label>Faixa de preço:</label>
                     <div className="flex gap-2 mt-2">
@@ -91,8 +87,6 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                     </div>
                 </div>
 
-
-                {/* Desconto mínimo */}
                 <div className="w-full">
                     <label htmlFor="minDiscount">Desconto mínimo (%):</label>
                     <input
@@ -104,9 +98,6 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                         onChange={(e) => setMinDiscount(e.target.value)}
                     />
                 </div>
-
-
-                {/* Ordenação */}
 
                 <div className="w-full">
                     <label htmlFor="sortBy">Ordenar por:</label>
@@ -122,9 +113,8 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                     </Select>
                 </div>
 
-
                 <div className="flex gap-3 justify-between">
-                    {/* Desconto mínimo */}
+    
                     <div className="w-full">
                         <label htmlFor="minDiscount">Desconto mínimo (%):</label>
                         <input
@@ -136,8 +126,6 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                             onChange={(e) => setMinDiscount(e.target.value)}
                         />
                     </div>
-
-                    {/* Ordenação */}
 
                     <div className="w-full">
                         <label htmlFor="sortBy">Ordenar por:</label>
@@ -152,7 +140,6 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                             </SelectContent>
                         </Select>
                     </div>
-
                 </div>
 
 
