@@ -33,6 +33,9 @@ export const metadata: Metadata = {
   authors: [
     { name: "Bruno Furtado", url: "https://brunodkf.netlify.app/" }
   ],
+  icons: {
+    icon: "/icon.webp",
+  },
   creator: "Bruno Furtado",
   openGraph: {
     title: "CheapShark Game Deals Dashboard",

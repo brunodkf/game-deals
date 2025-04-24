@@ -6,6 +6,9 @@ import {
     ColumnDef
 } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Game } from '@/app/context/GamesContext';
+import { useState } from "react";
+import { GameModal } from "../GameModal";
 
 
 interface DataTableProps<TData, TValue> {
@@ -14,12 +17,26 @@ interface DataTableProps<TData, TValue> {
 }
 
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends Game, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
     })
+
+      const [selectedGame, setSelectedGame] = useState<Game | null>(null)
+      const [isOpen, setIsOpen] = useState(false)
+    
+      const handleOpen = (game: Game) => {
+        setSelectedGame(game)
+        setIsOpen(true)
+      }
+    
+      const handleClose = () => {
+        setSelectedGame(null)
+        setIsOpen(false)
+      }
+    
 
     return (
         <div className="rounded-md border border-cinza-suave">
@@ -37,7 +54,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                 </TableHeader>
                 <TableBody>
                     {table.getRowModel().rows.map(row => (
-                        <TableRow key={row.id} className="cursor-pointer">
+                        <TableRow key={row.id} className="cursor-pointer"   onClick={() => handleOpen(row.original)}>
                             {row.getVisibleCells().map(cell => (
                                 <TableCell key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -47,6 +64,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                     ))}
                 </TableBody>
             </Table>
+
+            <GameModal game={selectedGame} isOpen={isOpen} onClose={handleClose} />
         </div>
     )
 }
