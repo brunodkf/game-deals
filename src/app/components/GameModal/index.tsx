@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Game } from '@/app/context/GamesContext'
+import Image from "next/image"
 
 interface GameModalProps {
   game: Game | null
@@ -26,11 +27,7 @@ export const GameModal = ({ game, isOpen, onClose }: GameModalProps) => {
         </DialogHeader>
 
         <div className="space-y-4">
-          <img
-            src={game.thumb}
-            alt={game.title}
-            className="w-full h-auto rounded-lg object-cover"
-          />
+          <Image src={game.thumb} alt={game.title} width={500} height={500} className="w-full h-auto rounded-lg object-cover" />
 
           <div>
             <strong className="block text-sm text-branco">Loja:</strong>
