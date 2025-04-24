@@ -26,18 +26,16 @@ const Navbar = () => {
 
     const handleOpen = () => {
         setIsOpen(!isOpen)
-        
-        if(isOpen){
+
+        if (isOpen) {
             setSearchView('flex')
-        }else{
+        } else {
             setSearchView('hidden')
         }
-       
     }
 
-
     return (
-        <section className='w-full h-16 flex items-center border-b-1 border-b-cinza-suave'>
+        <section className='w-full h-16 flex items-center border-b-1 border-b-cinza-suave relative'>
             <nav className='container m-auto flex items-center justify-between px-2 md:px-0'>
                 <div className="flex items-center">
                     <SiNintendogamecube className='text-4xl text-roxo-medio' />
@@ -45,9 +43,9 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex gap-6 items-center">
-                    <FaSearch className='md:hidden text-xl text-roxo-medio' onClick={() => handleOpen()} />
+                    <FaSearch className='sm:hidden text-xl text-roxo-medio cursor-pointer' onClick={() => handleOpen()} />
 
-                    <div className={`${searchView}`}>
+                    <div className={`${searchView} absolute top-[70px] w-full left-0 bg-purple-950 sm:hidden p-4`}>
                         <div className=" w-full max-w-lg items-center space-x-2 border-muted-foreground ">
                             <Input
                                 type="text"
@@ -55,7 +53,7 @@ const Navbar = () => {
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={handleKeyDown}
-                                className='z-0 border border-cinza-suave'
+                                className='z-0 border border-cinza-suave '
                             />
                             <Button
                                 type="submit"
@@ -67,7 +65,8 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    <div className="hidden md:block relative w-full max-w-sm">
+
+                    <div className="hidden sm:block relative w-full max-w-sm">
                         <div className="flex w-full max-w-lg items-center space-x-2 border-muted-foreground ">
                             <Input
                                 type="text"

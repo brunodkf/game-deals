@@ -3,7 +3,8 @@
 import { FaSearch } from "react-icons/fa"
 import { BiFilterAlt } from "react-icons/bi"
 import React, { useState } from "react"
-
+import { IoCaretDown } from "react-icons/io5";
+import { IoCaretUp } from "react-icons/io5";
 import { Input } from "@/components/ui/input"
 
 import {
@@ -34,6 +35,8 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
     const [upperPrice, setUpperPrice] = useState("")
     const [minDiscount, setMinDiscount] = useState("")
     const [sortBy, setSortBy] = useState("price")
+    const [isOpen, setIsOpen] = useState(false)
+
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -47,15 +50,22 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
         })
     }
 
+
+
     return (
         <section className='sidebar lg:max-w-[214px] p-4 lg:p-0'>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
                 <BiFilterAlt />
                 <p className='uppercase font-bold font-orbitron'>filtros</p>
+
+                <button className="bg-purple-800 rounded ml-2 sm:hidden">
+                    {
+                        isOpen? <IoCaretDown /> :  <IoCaretUp />
+                    }
+                </button>
             </div>
 
-            <form className="space-y-6 mt-6 " onSubmit={handleSubmit}>
-
+            <form className={`space-y-6 mt-6 ${isOpen ? 'hidden' : 'block'} sm:block transition-transform duration-300 ease-in-out`} onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="store">Filtrar por loja:</label>
 
@@ -114,7 +124,7 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                 </div>
 
                 <div className="flex flex-col gap-3 justify-between">
-    
+
                     <div className="w-full">
                         <label htmlFor="minDiscount">Desconto mínimo (%):</label>
                         <input
