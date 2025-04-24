@@ -14,11 +14,27 @@ const Navbar = () => {
     const { setSearch } = useGames();
     const [inputValue, setInputValue] = useState('');
 
+    const [isOpen, setIsOpen] = useState(false);
+    const [searchView, setSearchView] = useState('hidden')
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setSearch(inputValue); 
+            setSearch(inputValue);
         }
     }
+
+
+    const handleOpen = () => {
+        setIsOpen(!isOpen)
+        
+        if(isOpen){
+            setSearchView('flex')
+        }else{
+            setSearchView('hidden')
+        }
+       
+    }
+
 
     return (
         <section className='w-full h-16 flex items-center border-b-1 border-b-cinza-suave'>
@@ -29,7 +45,27 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex gap-6 items-center">
-                    <FaSearch className='md:hidden text-xl text-roxo-medio' />
+                    <FaSearch className='md:hidden text-xl text-roxo-medio' onClick={() => handleOpen()} />
+
+                    <div className={`${searchView}`}>
+                        <div className=" w-full max-w-lg items-center space-x-2 border-muted-foreground ">
+                            <Input
+                                type="text"
+                                placeholder="Search games..."
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                className='z-0 border border-cinza-suave'
+                            />
+                            <Button
+                                type="submit"
+                                className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4 z-10 cursor-pointer"
+                                onClick={() => setSearch(inputValue)}
+                            >
+                                <FaSearch />
+                            </Button>
+                        </div>
+                    </div>
 
                     <div className="hidden md:block relative w-full max-w-sm">
                         <div className="flex w-full max-w-lg items-center space-x-2 border-muted-foreground ">

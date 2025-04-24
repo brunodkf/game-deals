@@ -9,8 +9,6 @@ const Banner = () => {
     
     const [randomBanner, setRandomBanner] = useState<Game>()
 
-    console.log(randomBanner)
-
     useEffect(() => {
         if (games?.length > 0) {
             const randomItem = Math.floor(Math.random() * games.length)

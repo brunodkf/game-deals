@@ -113,7 +113,7 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                     </Select>
                 </div>
 
-                <div className="flex gap-3 justify-between">
+                <div className="flex flex-col gap-3 justify-between">
     
                     <div className="w-full">
                         <label htmlFor="minDiscount">Desconto mínimo (%):</label>
