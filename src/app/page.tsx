@@ -2,7 +2,7 @@
 
 import Banner from "./components/Banner/page";
 import Navbar from "./components/Navbar/Navbar";
-import DataTable from "@/app/components/DataTable/page"
+import DataTable from "@/app/components/DataTable"
 import FilterSidebar, { FilterValues } from "./components/FilterSidebar/page";
 
 import { useGames } from "./context/GamesContext"
@@ -68,6 +68,7 @@ export default function Home() {
 
   useEffect(() => {
     handleFilter(initialFilters)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ search])
 
 

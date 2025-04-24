@@ -8,9 +8,10 @@ import GameCard from '../GameCard/page';
 
 import { IoGrid, IoList } from 'react-icons/io5';
 
-type GamesTableProps = {
+interface GamesTableProps {
   filteredGames: Game[]
 }
+
 
 const GamesTable = ({ filteredGames }: GamesTableProps) => {
   const { games, isLoading } = useGames();
