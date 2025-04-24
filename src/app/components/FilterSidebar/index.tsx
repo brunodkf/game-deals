@@ -51,14 +51,13 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
     }
 
 
-
     return (
         <section className='sidebar lg:max-w-[214px] p-4 lg:p-0'>
             <div className="flex items-center gap-1 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
                 <BiFilterAlt />
                 <p className='uppercase font-bold font-orbitron'>filtros</p>
 
-                <button className="bg-purple-800 rounded ml-2 sm:hidden">
+                <button className="bg-purple-700 rounded ml-2 sm:hidden">
                     {
                         isOpen? <IoCaretDown /> :  <IoCaretUp />
                     }
