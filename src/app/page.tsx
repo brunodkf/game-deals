@@ -8,19 +8,21 @@ import FilterSidebar, { FilterValues } from "./components/FilterSidebar/page";
 import { useGames } from "./context/GamesContext"
 import { useEffect, useState } from "react";
 
+const initialFilters: FilterValues = {
+  store: '',
+  lowerPrice: '',
+  upperPrice: '',
+  minDiscount: '',
+  sortBy: '',
+}
+
+
 export default function Home() {
 
   const { games, search } = useGames()
 
   const [filteredGames, setFilteredGames] = useState(games)
 
-  const initialFilters: FilterValues = {
-    store: '',
-    lowerPrice: '',
-    upperPrice: '',
-    minDiscount: '',
-    sortBy: '',
-  }
 
   const handleFilter = (filters: FilterValues) => {
 
@@ -66,7 +68,7 @@ export default function Home() {
 
   useEffect(() => {
     handleFilter(initialFilters)
-  }, [search])
+  }, [ search])
 
 
   return (

@@ -8,8 +8,8 @@ import GameCard from '../GameCard/page';
 
 import { IoGrid, IoList } from 'react-icons/io5';
 
-interface GamesTableProps {
-  filteredGames?: Game[];
+type GamesTableProps = {
+  filteredGames: Game[]
 }
 
 const GamesTable = ({ filteredGames }: GamesTableProps) => {
