@@ -1,9 +1,9 @@
 'use client'
 
-import Banner from "./components/Banner/page";
+import Banner from "./components/Banner";
 import Navbar from "./components/Navbar/Navbar";
 import DataTable from "@/app/components/DataTable"
-import FilterSidebar, { FilterValues } from "./components/FilterSidebar/page";
+import FilterSidebar, { FilterValues } from "./components/FilterSidebar";
 
 import { useGames } from "./context/GamesContext"
 import { useEffect, useState } from "react";

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Game, useGames } from '@/app/context/GamesContext';
 import { columns } from './columns';
 import { DataTable } from './data-table';
-import GameCard from '../GameCard/page';
+import GameCard from '../GameCard';
 
 import { IoGrid, IoList } from 'react-icons/io5';
 
