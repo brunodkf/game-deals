@@ -57,14 +57,14 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                 <BiFilterAlt />
                 <p className='uppercase font-bold font-orbitron'>filtros</p>
 
-                <button className="bg-purple-700 rounded ml-2 sm:hidden">
+                <button className="bg-purple-700 rounded ml-2 lg:hidden">
                     {
                         isOpen? <IoCaretDown /> :  <IoCaretUp />
                     }
                 </button>
             </div>
 
-            <form className={`space-y-6 mt-6 ${isOpen ? 'hidden' : 'block'} sm:block transition-transform duration-300 ease-in-out`} onSubmit={handleSubmit}>
+            <form className={`space-y-6 mt-6 ${isOpen ? 'hidden' : 'block'} lg:block transition-transform duration-300 ease-in-out`} onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="store">Filtrar por loja:</label>
 
