@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Orbitron } from "next/font/google";
 import "./globals.css";
-import { GamesProvider } from "@/app/context/GamesContext";
+import FavoritosProvider from "./context/FavoritosContext";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "CheapShark API"
   ],
   authors: [
-    { name: "Bruno Furtado", url: "https://brunodkf.netlify.app/" }
+    { name: "Bruno Furtado", url: "https://brunodkf.vercel.app/" }
   ],
   icons: {
     icon: "/icon.webp",
@@ -41,11 +41,11 @@ export const metadata: Metadata = {
     title: "CheapShark Game Deals Dashboard",
     description:
       "Explore as melhores ofertas de jogos com visual moderno e filtros personalizados usando a CheapShark API.",
-    url: "https://seu-dominio.com", 
+    url: "https://seu-dominio.com",
     siteName: "CheapShark Game Deals",
     images: [
       {
-        url: "https://seu-dominio.com/og-image.png", 
+        url: "https://seu-dominio.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "CheapShark Game Deals Dashboard",
@@ -66,9 +66,9 @@ export default function RootLayout({
       <body
         className={`${sora.variable} ${orbitron.variable} antialiased bg-[#2d2d2d] bg-gradient-to-br from-foreground text-branco`}
       >
-        <GamesProvider>
+        <FavoritosProvider>
           {children}
-        </GamesProvider>
+        </FavoritosProvider>
       </body>
     </html>
   );

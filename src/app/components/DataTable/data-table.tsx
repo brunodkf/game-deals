@@ -3,19 +3,17 @@ import {
     flexRender,
     getCoreRowModel,
     useReactTable,
-    ColumnDef
+    ColumnDef,
 } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Game } from '@/app/context/GamesContext';
-import { useState } from "react";
+import type { Game } from '@/app/context/GamesContext';
+import { useGameModal } from '@/hooks/useGameModal';
 import { GameModal } from "../GameModal";
-
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
-
 
 export function DataTable<TData extends Game, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
@@ -24,22 +22,10 @@ export function DataTable<TData extends Game, TValue>({ columns, data }: DataTab
         getCoreRowModel: getCoreRowModel(),
     })
 
-      const [selectedGame, setSelectedGame] = useState<Game | null>(null)
-      const [isOpen, setIsOpen] = useState(false)
-    
-      const handleOpen = (game: Game) => {
-        setSelectedGame(game)
-        setIsOpen(true)
-      }
-    
-      const handleClose = () => {
-        setSelectedGame(null)
-        setIsOpen(false)
-      }
-    
+    const { selectedGame, isOpen, open, close } = useGameModal();
 
     return (
-        <div className="rounded-md border border-cinza-suave">
+        <div className="w-full table__container rounded-md border border-cinza-suave">
             <Table>
                 <TableHeader className="font-orbitron">
                     {table.getHeaderGroups().map(headerGroup => (
@@ -54,7 +40,7 @@ export function DataTable<TData extends Game, TValue>({ columns, data }: DataTab
                 </TableHeader>
                 <TableBody>
                     {table.getRowModel().rows.map(row => (
-                        <TableRow key={row.id} className="cursor-pointer"   onClick={() => handleOpen(row.original)}>
+                        <TableRow key={row.id} className="cursor-pointer" onClick={() => open(row.original)}>
                             {row.getVisibleCells().map(cell => (
                                 <TableCell key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -65,7 +51,7 @@ export function DataTable<TData extends Game, TValue>({ columns, data }: DataTab
                 </TableBody>
             </Table>
 
-            <GameModal game={selectedGame} isOpen={isOpen} onClose={handleClose} />
+            <GameModal game={selectedGame} isOpen={isOpen} onClose={close} />
         </div>
     )
 }

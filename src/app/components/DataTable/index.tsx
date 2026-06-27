@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Game, useGames } from '@/app/context/GamesContext';
 import { columns } from './columns';
 import { DataTable } from './data-table';
 import GameCard from '../GameCard';
+import { LayoutGrid, List, ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { IoGrid, IoList } from 'react-icons/io5';
+const ITEMS_PER_PAGE = 20;
 
 interface GamesTableProps {
   filteredGames: Game[]
@@ -15,8 +16,19 @@ interface GamesTableProps {
 const GamesTable = ({ filteredGames }: GamesTableProps) => {
   const { games, isLoading } = useGames();
   const [viewMode, setViewMode] = useState<'table' | 'card'>('table');
+  const [page, setPage] = useState(1);
 
   const dataToDisplay = filteredGames?.length ? filteredGames : games;
+
+  useEffect(() => {
+    setPage(1);
+  }, [filteredGames]);
+
+  const totalPages = Math.ceil(dataToDisplay.length / ITEMS_PER_PAGE);
+  const paginatedData = dataToDisplay.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
 
   const isTableView = viewMode === 'table';
   const hasGames = dataToDisplay.length > 0;
@@ -34,7 +46,7 @@ const GamesTable = ({ filteredGames }: GamesTableProps) => {
               isTableView ? 'bg-purple-600' : 'bg-cinza-suave'
             }`}
           >
-            <IoList />
+            <List size={16} />
           </button>
           <button
             onClick={() => setViewMode('card')}
@@ -43,7 +55,7 @@ const GamesTable = ({ filteredGames }: GamesTableProps) => {
               !isTableView ? 'bg-purple-600' : 'bg-cinza-suave'
             }`}
           >
-            <IoGrid />
+            <LayoutGrid size={16} />
           </button>
         </div>
       </div>
@@ -51,11 +63,37 @@ const GamesTable = ({ filteredGames }: GamesTableProps) => {
       {isLoading ? (
         <p>Carregando jogos...</p>
       ) : hasGames ? (
-        isTableView ? (
-          <DataTable columns={columns} data={dataToDisplay} />
-        ) : (
-          <GameCard games={dataToDisplay} />
-        )
+        <>
+          {isTableView ? (
+            <DataTable columns={columns} data={paginatedData} />
+          ) : (
+            <GameCard games={paginatedData} />
+          )}
+
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                aria-label="Página anterior"
+                className="p-2 rounded bg-cinza-suave disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <span className="text-sm">
+                {page} / {totalPages}
+              </span>
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                aria-label="Próxima página"
+                className="p-2 rounded bg-cinza-suave disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <p>Nenhum jogo encontrado com os filtros aplicados.</p>
       )}

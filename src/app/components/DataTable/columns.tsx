@@ -1,7 +1,47 @@
+'use client'
+
 import { Game } from "@/app/context/GamesContext";
+import { useCarrinho } from "@/app/context/CarrinhoContext";
+import { useStores } from "@/app/context/StoresContext";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import { FaShoppingCart } from "react-icons/fa";
+import { ShoppingCart } from "lucide-react";
+
+function CartButton({ game }: { game: Game }) {
+  const { addItem, openPanel, itens } = useCarrinho()
+  const isInCart = itens.some((i) => i.id === game.gameID)
+
+  function handleClick(e: React.MouseEvent) {
+    e.stopPropagation()
+    addItem({
+      id: game.gameID,
+      name: game.title,
+      price: game.salePrice,
+      thumb: game.thumb,
+      storeID: game.storeID,
+      normalPrice: game.normalPrice,
+      savings: game.savings,
+    })
+    openPanel()
+  }
+
+  return (
+    <button
+      className={`rounded p-2 cursor-pointer transition-colors ${
+        isInCart ? 'bg-purple-900' : 'bg-roxo-medio hover:opacity-80'
+      }`}
+      aria-label={`${isInCart ? 'Ver no' : 'Adicionar ao'} carrinho: ${game.title}`}
+      onClick={handleClick}
+    >
+      <ShoppingCart size={14} className="text-branco" />
+    </button>
+  )
+}
+
+function StoreCell({ storeID }: { storeID: number }) {
+  const { resolveStoreName } = useStores()
+  return <span>{resolveStoreName(storeID)}</span>
+}
 
 export const columns: ColumnDef<Game>[] = [
   {
@@ -16,6 +56,7 @@ export const columns: ColumnDef<Game>[] = [
             alt={title}
             width={50}
             height={50}
+            sizes="40px"
             className="w-10 h-10 rounded"
           />
           <span>{title}</span>
@@ -58,10 +99,7 @@ export const columns: ColumnDef<Game>[] = [
   {
     accessorKey: "storeID",
     header: "Loja",
-    cell: ({ row }) => {
-      const { storeID } = row.original;
-      return <span>Loja #{storeID}</span>;
-    },
+    cell: ({ row }) => <StoreCell storeID={row.original.storeID} />,
   },
   {
     accessorKey: "dealRating",
@@ -74,15 +112,6 @@ export const columns: ColumnDef<Game>[] = [
   {
     accessorKey: "cart",
     header: "",
-    cell: ({ row }) => {
-      return (
-        <button
-          className="bg-roxo-medio rounded p-2 cursor-pointer"
-          aria-label={`Adicionar ${row.original.title} ao carrinho`}
-        >
-          <FaShoppingCart className="text-sm text-branco" />
-        </button>
-      );
-    },
+    cell: ({ row }) => <CartButton game={row.original} />,
   },
 ];

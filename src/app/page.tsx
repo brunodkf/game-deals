@@ -1,93 +1,26 @@
-'use client'
+import { Suspense } from 'react';
+import { fetchDealsSSR } from '@/services/games.service';
+import { fetchStoresSSR } from '@/services/stores.service';
+import type { Game } from '@/types/game';
+import type { Store } from '@/types/store';
+import HomeClient from './components/HomeClient';
 
-import Banner from "./components/Banner";
-import Navbar from "./components/Navbar/Navbar";
-import DataTable from "@/app/components/DataTable"
-import FilterSidebar, { FilterValues } from "./components/FilterSidebar";
+export default async function Home() {
+  let games: Game[] = [];
+  let stores: Store[] = [];
 
-import { useGames } from "./context/GamesContext"
-import { useEffect, useState } from "react";
-
-const initialFilters: FilterValues = {
-  store: '',
-  lowerPrice: '',
-  upperPrice: '',
-  minDiscount: '',
-  sortBy: '',
-}
-
-
-export default function Home() {
-
-  const { games, search } = useGames()
-
-  const [filteredGames, setFilteredGames] = useState(games)
-
-
-  const handleFilter = (filters: FilterValues) => {
-
-    let filtered = [...games]
-
-    if (search) {
-      filtered = filtered.filter(game =>
-        game.title.toLowerCase().includes(search.toLowerCase())
-      )
-    }
-
-
-    if (filters.store) {
-      filtered = filtered.filter(game => game.storeID.toString() === filters.store)
-    }
-
-    if (filters.lowerPrice) {
-      filtered = filtered.filter(game => game.salePrice >= parseFloat(filters.lowerPrice))
-    }
-
-    if (filters.upperPrice) {
-      filtered = filtered.filter(game => game.salePrice <= parseFloat(filters.upperPrice))
-    }
-
-    if (filters.minDiscount) {
-      filtered = filtered.filter(game => game.savings >= parseFloat(filters.minDiscount))
-    }
-
-    switch (filters.sortBy) {
-      case "price":
-        filtered.sort((a, b) => a.salePrice - b.salePrice)
-        break
-      case "savings":
-        filtered.sort((a, b) => b.savings - a.savings)
-        break
-      case "dealRating":
-        filtered.sort((a, b) => b.dealRating - a.dealRating)
-        break
-    }
-
-    setFilteredGames(filtered)
+  try {
+    [games, stores] = await Promise.all([
+      fetchDealsSSR(),
+      fetchStoresSSR(),
+    ]);
+  } catch (error) {
+    console.error('[page] Failed to load data:', error);
   }
 
-  useEffect(() => {
-    handleFilter(initialFilters)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ search])
-
-
   return (
-    <main className="w-full min-h-screen font-sora">
-      <Navbar />
-
-      <div className="container m-auto flex flex-col lg:flex-row gap-4 mt-6">
-
-        <FilterSidebar onFilter={handleFilter} />
-
-        <div className=" w-10/11 md:w-full m-auto">
-
-          <Banner />
-
-          <DataTable filteredGames={filteredGames} />
-        </div>
-      </div>
-
-    </main>
+    <Suspense fallback={null}>
+      <HomeClient initialGames={games} initialStores={stores} />
+    </Suspense>
   );
 }

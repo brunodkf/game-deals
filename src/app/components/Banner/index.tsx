@@ -44,7 +44,7 @@ const Banner = () => {
 
                 {randomBanner?.salePrice && (
                     <p className="mt-1 text-lg font-semibold">
-                        Por apenas <span className="text-amber-300">R$ {randomBanner.salePrice.toFixed(2)}</span>
+                        Por apenas <span className="text-amber-300">${randomBanner.salePrice.toFixed(2)}</span>
                     </p>
                 )}
 
