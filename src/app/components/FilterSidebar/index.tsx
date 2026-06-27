@@ -3,7 +3,6 @@
 import { Search, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useMemo, useState } from "react"
 import { Input } from "@/components/ui/input"
-import { useGames } from '@/app/context/GamesContext'
 import { useStores } from '@/app/context/StoresContext'
 import type { FilterValues } from '@/types/filter'
 
@@ -15,7 +14,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-// Re-export so existing page-level imports remain valid
 export type { FilterValues } from '@/types/filter'
 
 interface FiltersProps {
@@ -23,8 +21,7 @@ interface FiltersProps {
 }
 
 export default function FilterSidebar({ onFilter }: FiltersProps) {
-    const { games } = useGames()
-    const { stores, resolveStoreName } = useStores()
+    const { stores } = useStores()
 
     const [store, setStore] = useState("")
     const [lowerPrice, setLowerPrice] = useState("")
@@ -33,16 +30,12 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
     const [sortBy, setSortBy] = useState("price")
     const [isOpen, setIsOpen] = useState(false)
 
-    // Derive the set of storeIDs actually present in the current dataset
-    const availableStores = useMemo(() => {
-        const presentIds = new Set(games.map((g) => g.storeID))
-        return stores
-            .filter((s) => presentIds.has(s.storeID))
-            .sort((a, b) => a.storeName.localeCompare(b.storeName))
-    }, [games, stores])
+    const activeStores = useMemo(() =>
+        stores.filter((s) => s.isActive).sort((a, b) => a.storeName.localeCompare(b.storeName)),
+    [stores])
 
     function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
+        e.preventDefault()
         onFilter({ store, lowerPrice, upperPrice, minDiscount, sortBy })
     }
 
@@ -70,13 +63,13 @@ export default function FilterSidebar({ onFilter }: FiltersProps) {
                             <SelectItem className="text-white font-sora" value="all">
                                 Todas as Lojas
                             </SelectItem>
-                            {availableStores.map((s) => (
+                            {activeStores.map((s) => (
                                 <SelectItem
                                     key={s.storeID}
                                     className="text-white font-sora"
                                     value={s.storeID.toString()}
                                 >
-                                    {resolveStoreName(s.storeID)}
+                                    {s.storeName}
                                 </SelectItem>
                             ))}
                         </SelectContent>

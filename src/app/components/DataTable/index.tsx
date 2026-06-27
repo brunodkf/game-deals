@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Game, useGames } from '@/app/context/GamesContext';
+import { type Game, useGames } from '@/app/context/GamesContext';
 import { columns } from './columns';
 import { DataTable } from './data-table';
 import GameCard from '../GameCard';
@@ -14,24 +14,21 @@ interface GamesTableProps {
 }
 
 const GamesTable = ({ filteredGames }: GamesTableProps) => {
-  const { games, isLoading } = useGames();
+  const { isLoading, error } = useGames();
   const [viewMode, setViewMode] = useState<'table' | 'card'>('table');
   const [page, setPage] = useState(1);
-
-  const dataToDisplay = filteredGames?.length ? filteredGames : games;
 
   useEffect(() => {
     setPage(1);
   }, [filteredGames]);
 
-  const totalPages = Math.ceil(dataToDisplay.length / ITEMS_PER_PAGE);
-  const paginatedData = dataToDisplay.slice(
+  const totalPages = Math.ceil(filteredGames.length / ITEMS_PER_PAGE);
+  const paginatedData = filteredGames.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
 
   const isTableView = viewMode === 'table';
-  const hasGames = dataToDisplay.length > 0;
 
   return (
     <div className="text-branco lg:w-full xl:p-4">
@@ -61,8 +58,10 @@ const GamesTable = ({ filteredGames }: GamesTableProps) => {
       </div>
 
       {isLoading ? (
-        <p>Carregando jogos...</p>
-      ) : hasGames ? (
+        <p className="text-zinc-400 text-sm py-8 text-center">Carregando jogos...</p>
+      ) : error ? (
+        <p className="text-red-400 text-sm py-8 text-center">Erro ao carregar jogos: {error}</p>
+      ) : filteredGames.length > 0 ? (
         <>
           {isTableView ? (
             <DataTable columns={columns} data={paginatedData} />
@@ -95,7 +94,9 @@ const GamesTable = ({ filteredGames }: GamesTableProps) => {
           )}
         </>
       ) : (
-        <p>Nenhum jogo encontrado com os filtros aplicados.</p>
+        <p className="text-zinc-400 text-sm py-8 text-center">
+          Nenhum jogo encontrado com os filtros aplicados.
+        </p>
       )}
     </div>
   );

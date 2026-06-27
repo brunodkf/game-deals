@@ -64,6 +64,7 @@ export default function RootLayout({
   return (
     <html lang="pt">
       <body
+        suppressHydrationWarning
         className={`${sora.variable} ${orbitron.variable} antialiased bg-[#2d2d2d] bg-gradient-to-br from-foreground text-branco`}
       >
         <FavoritosProvider>
