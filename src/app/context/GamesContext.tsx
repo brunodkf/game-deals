@@ -1,5 +1,5 @@
 'use client'
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useRef, useState } from "react";
 import type { Game } from '@/types/game';
 import type { ApiFilters } from '@/types/filter';
 import { fetchDealsClient } from '@/services/deals.client';
@@ -28,18 +28,26 @@ export function GamesProvider({ children, initialGames }: GamesProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const abortRef = useRef<AbortController | null>(null);
 
   const refreshGames = useCallback((filters: ApiFilters) => {
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+    const { signal } = abortRef.current;
+
     setIsLoading(true);
     setError(null);
-    fetchDealsClient(filters)
+    fetchDealsClient(filters, signal)
       .then((newGames) => { setGames(newGames); })
       .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') return;
         const message = err instanceof Error ? err.message : 'Erro ao buscar jogos';
         setError(message);
         console.error('[GamesContext] refreshGames failed:', err);
       })
-      .finally(() => { setIsLoading(false); });
+      .finally(() => {
+        if (!signal.aborted) setIsLoading(false);
+      });
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import { parseGame, type Game, type RawGame } from '@/types/game';
 
 const CHEAPSHARK_DEALS_URL =
-  'https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15';
+  'https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15&pageSize=60';
 
 /**
  * Server-side fetch with ISR. Revalida o cache a cada 5 minutos.
