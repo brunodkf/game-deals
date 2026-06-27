@@ -9,13 +9,21 @@ export default async function Home() {
   let games: Game[] = [];
   let stores: Store[] = [];
 
-  try {
-    [games, stores] = await Promise.all([
-      fetchDealsSSR(),
-      fetchStoresSSR(),
-    ]);
-  } catch (error) {
-    console.error('[page] Failed to load data:', error);
+  const [gamesResult, storesResult] = await Promise.allSettled([
+    fetchDealsSSR(),
+    fetchStoresSSR(),
+  ]);
+
+  if (gamesResult.status === 'fulfilled') {
+    games = gamesResult.value;
+  } else {
+    console.error('[page] Failed to load games:', gamesResult.reason);
+  }
+
+  if (storesResult.status === 'fulfilled') {
+    stores = storesResult.value;
+  } else {
+    console.error('[page] Failed to load stores:', storesResult.reason);
   }
 
   return (
