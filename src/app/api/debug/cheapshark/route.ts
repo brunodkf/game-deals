@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
+import { CHEAPSHARK_HEADERS } from '@/lib/cheapshark';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -72,22 +73,20 @@ export async function GET() {
   const requestId = randomUUID();
   const ts = new Date().toISOString();
 
-  // Quatro variações de URL + uma com User-Agent explícito
-  // para isolar se o bloqueio é por parâmetro ou por identidade do cliente.
+  // Probe de controle (sem headers) + quatro probes com CHEAPSHARK_HEADERS.
+  // O probe de controle documenta o comportamento bloqueado para referência.
   const [
+    r_no_headers,
     r_no_params,
     r_pagesize,
     r_pagesize_store,
     r_store_only,
-    r_with_ua,
   ] = await Promise.all([
-    probe('https://www.cheapshark.com/api/1.0/deals'),
     probe('https://www.cheapshark.com/api/1.0/deals?pageSize=60'),
-    probe('https://www.cheapshark.com/api/1.0/deals?pageSize=60&storeID=1'),
-    probe('https://www.cheapshark.com/api/1.0/deals?storeID=1'),
-    probe('https://www.cheapshark.com/api/1.0/deals?pageSize=60', {
-      'user-agent': 'Mozilla/5.0 (compatible; diagnostic/1.0)',
-    }),
+    probe('https://www.cheapshark.com/api/1.0/deals', CHEAPSHARK_HEADERS),
+    probe('https://www.cheapshark.com/api/1.0/deals?pageSize=60', CHEAPSHARK_HEADERS),
+    probe('https://www.cheapshark.com/api/1.0/deals?pageSize=60&storeID=1', CHEAPSHARK_HEADERS),
+    probe('https://www.cheapshark.com/api/1.0/deals?storeID=1', CHEAPSHARK_HEADERS),
   ]);
 
   const report = {
@@ -100,11 +99,11 @@ export async function GET() {
       next_runtime: process.env.NEXT_RUNTIME ?? null,
     },
     probes: {
+      control_no_headers:  r_no_headers,
       no_params:           r_no_params,
       pagesize_60:         r_pagesize,
       pagesize_60_store_1: r_pagesize_store,
       store_1_only:        r_store_only,
-      pagesize_60_with_ua: r_with_ua,
     },
   };
 

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
+import { CHEAPSHARK_HEADERS } from '@/lib/cheapshark';
 
 export const runtime = 'nodejs';
 
@@ -82,6 +83,7 @@ export async function GET(request: Request) {
     const res = await fetch(cheapsharkUrl, {
       next: { revalidate: 300 },
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      headers: CHEAPSHARK_HEADERS,
     });
 
     const elapsed = Date.now() - start;

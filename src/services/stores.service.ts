@@ -1,4 +1,5 @@
 import { parseStore, type Store, type RawStore } from '@/types/store';
+import { CHEAPSHARK_HEADERS } from '@/lib/cheapshark';
 
 const CHEAPSHARK_STORES_URL = 'https://www.cheapshark.com/api/1.0/stores';
 
@@ -7,6 +8,7 @@ export async function fetchStoresSSR(): Promise<Store[]> {
     const res = await fetch(CHEAPSHARK_STORES_URL, {
       next: { revalidate: 3600 },
       signal: AbortSignal.timeout(8000),
+      headers: CHEAPSHARK_HEADERS,
     });
 
     if (!res.ok) {

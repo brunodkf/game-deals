@@ -1,4 +1,5 @@
 import { parseGame, type Game, type RawGame } from '@/types/game';
+import { CHEAPSHARK_HEADERS } from '@/lib/cheapshark';
 
 const CHEAPSHARK_DEALS_URL =
   'https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15&pageSize=60';
@@ -11,6 +12,7 @@ export async function fetchDealsSSR(): Promise<Game[]> {
   const res = await fetch(CHEAPSHARK_DEALS_URL, {
     next: { revalidate: 300 },
     signal: AbortSignal.timeout(8000),
+    headers: CHEAPSHARK_HEADERS,
   });
 
   if (!res.ok) {
