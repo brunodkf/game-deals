@@ -10,6 +10,7 @@ const CHEAPSHARK_DEALS_URL =
 export async function fetchDealsSSR(): Promise<Game[]> {
   const res = await fetch(CHEAPSHARK_DEALS_URL, {
     next: { revalidate: 300 },
+    signal: AbortSignal.timeout(8000),
   });
 
   if (!res.ok) {

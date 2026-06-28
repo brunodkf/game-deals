@@ -6,6 +6,7 @@ export async function fetchStoresSSR(): Promise<Store[]> {
   try {
     const res = await fetch(CHEAPSHARK_STORES_URL, {
       next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(8000),
     });
 
     if (!res.ok) {
