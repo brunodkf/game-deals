@@ -1,5 +1,5 @@
 'use client'
-import React, { createContext, useCallback, useContext, useRef, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { Game } from '@/types/game';
 import type { ApiFilters } from '@/types/filter';
 import { fetchDealsClient } from '@/services/deals.client';
@@ -25,7 +25,7 @@ GamesContext.displayName = "Games";
 
 export function GamesProvider({ children, initialGames }: GamesProviderProps) {
   const [games, setGames] = useState<Game[]>(initialGames);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(initialGames.length === 0);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const abortRef = useRef<AbortController | null>(null);
@@ -48,6 +48,11 @@ export function GamesProvider({ children, initialGames }: GamesProviderProps) {
       .finally(() => {
         if (!signal.aborted) setIsLoading(false);
       });
+  }, []);
+
+  useEffect(() => {
+    if (initialGames.length === 0) refreshGames({});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

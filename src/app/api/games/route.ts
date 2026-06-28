@@ -37,7 +37,7 @@ export async function GET(request: Request) {
       url.searchParams.set('upperPrice', String(price));
     }
 
-    const res = await fetch(url.toString(), { next: { revalidate: 60 } });
+    const res = await fetch(url.toString(), { next: { revalidate: 300 } });
 
     if (!res.ok) {
       console.error(`[api/games] CheapShark returned ${res.status} for: ${url.toString()}`);
