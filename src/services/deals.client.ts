@@ -1,26 +1,20 @@
 import { parseGame, type Game, type RawGame } from '@/types/game';
 import type { ApiFilters } from '@/types/filter';
 
+const CHEAPSHARK_DEALS_URL = 'https://www.cheapshark.com/api/1.0/deals';
+
 export async function fetchDealsClient(filters: ApiFilters, signal?: AbortSignal): Promise<Game[]> {
-  const params = new URLSearchParams();
-  if (filters.storeID) params.set('storeID', filters.storeID);
-  if (filters.lowerPrice) params.set('lowerPrice', filters.lowerPrice);
-  if (filters.upperPrice) params.set('upperPrice', filters.upperPrice);
+  const url = new URL(CHEAPSHARK_DEALS_URL);
+  url.searchParams.set('pageSize', '60');
 
-  const qs = params.toString();
-  const url = `/api/games${qs ? `?${qs}` : ''}`;
+  if (filters.storeID) url.searchParams.set('storeID', filters.storeID);
+  if (filters.lowerPrice) url.searchParams.set('lowerPrice', filters.lowerPrice);
+  if (filters.upperPrice) url.searchParams.set('upperPrice', filters.upperPrice);
 
-  const res = await fetch(url, { signal });
+  const res = await fetch(url.toString(), { signal });
 
   if (!res.ok) {
-    let message = `Falha ao buscar ofertas: ${res.status}`;
-    try {
-      const body = await res.json() as { error?: string };
-      if (body.error) message = body.error;
-    } catch {
-      // ignore — use default message
-    }
-    throw new Error(message);
+    throw new Error(`Falha ao buscar ofertas: ${res.status}`);
   }
 
   const rawGames: unknown = await res.json();
