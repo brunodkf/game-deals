@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'default-cache';
+
 import { Suspense } from 'react';
 import { fetchDealsSSR } from '@/services/games.service';
 import { fetchStoresSSR } from '@/services/stores.service';
