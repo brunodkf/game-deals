@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 const CHEAPSHARK_DEALS_URL = 'https://www.cheapshark.com/api/1.0/deals';
